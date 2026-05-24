@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VideoCanvas</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- TOOLBAR -->
+  <header class="toolbar" role="banner">
+    <div class="toolbar__brand">
+      <svg class="brand-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M10 8l5 3-5 3V8z" fill="currentColor"/>
+        <path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span>VideoCanvas</span>
+    </div>
+
+    <div class="toolbar__controls">
+      <!-- Load -->
+      <button class="btn btn--primary" id="btn-load-folder" title="Cargar carpeta de videos">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.5"/></svg>
+        Cargar carpeta
+      </button>
+      <input type="file" id="folder-input" webkitdirectory multiple accept="video/*,image/jpeg,image/png,image/webp,image/gif" hidden />
+
+      <div class="toolbar__sep"></div>
+
+      <!-- Zoom -->
+      <button class="btn btn--icon" id="btn-zoom-out" title="Alejar (-)">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 11h6M20 20l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <span class="zoom-label" id="zoom-label">100%</span>
+      <button class="btn btn--icon" id="btn-zoom-in" title="Acercar (+)">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M11 8v6M8 11h6M20 20l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="btn btn--icon" id="btn-reset-view" title="Centrar vista">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 8V5a1 1 0 011-1h3M16 4h3a1 1 0 011 1v3M20 16v3a1 1 0 01-1 1h-3M8 20H5a1 1 0 01-1-1v-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="toolbar__sep"></div>
+
+      <!-- Selection mode -->
+      <button class="btn btn--icon btn--toggle" id="btn-select-mode" title="Modo selección (S)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 3l16 9-7 2-4 7L4 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </button>
+
+      <!-- Add label -->
+      <button class="btn btn--icon" id="btn-add-label" title="Añadir etiqueta de texto al canvas (L)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h10M4 18h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="19" cy="18" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M19 16.5v1.5l1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+
+      <!-- Sort -->
+      <button class="btn btn--icon" id="btn-sort" title="Ordenar por nombre (alfabético)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M7 12h10M11 18h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+
+      <div class="toolbar__sep"></div>
+
+      <!-- Theme -->
+      <button class="btn btn--icon" id="btn-toggle-theme" title="Cambiar tema" aria-label="Toggle dark/light mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+
+      <!-- Clear -->
+      <button class="btn btn--danger-soft" id="btn-clear" title="Limpiar escena">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Limpiar
+      </button>
+
+      <!-- Save -->
+      <button class="btn btn--icon" id="btn-save" title="Guardar layout (Ctrl+S)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5"/><path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+
+      <!-- Export BAT -->
+      <button class="btn btn--icon" id="btn-export-bat" title="Exportar script de renombrado (.bat)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 16l-4-4h3V4h2v8h3l-4 4z" fill="currentColor"/><path d="M4 18h16v2H4v-2z" fill="currentColor"/></svg>
+      </button>
+    </div>
+
+    <div class="toolbar__filters">
+      <input type="search" class="search-input" id="search-input" placeholder="Buscar video…" aria-label="Buscar video" />
+      <div class="tag-filter" id="tag-filter" role="group" aria-label="Filtrar por etiqueta"></div>
+    </div>
+  </header>
+
+  <!-- SELECTION TOOLBAR (shown when cards are selected) -->
+  <div class="selection-bar" id="selection-bar" hidden>
+    <span class="selection-bar__count" id="selection-count">0 seleccionados</span>
+    <div class="selection-bar__actions">
+      <button class="btn btn--ghost btn--sm" id="btn-sel-rename">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="1.5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="1.5"/></svg>
+        Renombrar selección
+      </button>
+      <button class="btn btn--ghost btn--sm" id="btn-sel-tag">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+        Etiquetar
+      </button>
+      <button class="btn btn--ghost btn--sm" id="btn-sel-sort">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M7 12h10M11 18h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Ordenar selección
+      </button>
+      <button class="btn btn--ghost btn--sm" id="btn-sel-clear">✕ Deseleccionar</button>
+    </div>
+  </div>
+
+  <!-- CANVAS VIEWPORT -->
+  <main class="viewport" id="viewport" role="main" aria-label="Canvas de videos">
+    <div class="canvas" id="canvas">
+      <div class="empty-state" id="empty-state" aria-live="polite">
+        <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
+          <rect x="6" y="14" width="68" height="44" rx="6" stroke="currentColor" stroke-width="2"/>
+          <path d="M32 28l20 8-20 8V28z" fill="currentColor" opacity=".3"/>
+          <path d="M26 70h28M40 58v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h2>Canvas vacío</h2>
+        <p>Carga una carpeta de videos para empezar a organizar</p>
+        <button class="btn btn--primary btn--lg" id="btn-load-folder-2">Seleccionar carpeta</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- CONTEXT MENU -->
+  <div class="context-menu" id="context-menu" role="menu" hidden>
+    <button class="context-menu__item" data-action="rename" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="1.5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="1.5"/></svg>
+      Renombrar
+    </button>
+    <button class="context-menu__item" data-action="tag" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="7" r="1.5" fill="currentColor"/></svg>
+      Etiquetar
+    </button>
+    <button class="context-menu__item" data-action="select-add" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Añadir a selección
+    </button>
+    <button class="context-menu__item" data-action="duplicate" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.5"/></svg>
+      Duplicar
+    </button>
+    <div class="context-menu__sep"></div>
+    <button class="context-menu__item context-menu__item--danger" data-action="remove" role="menuitem">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Eliminar
+    </button>
+  </div>
+
+  <!-- MODAL: RENAME SINGLE -->
+  <div class="modal-overlay" id="modal-rename" hidden role="dialog" aria-modal="true" aria-labelledby="modal-rename-title">
+    <div class="modal">
+      <h3 class="modal__title" id="modal-rename-title">Renombrar video</h3>
+      <input type="text" class="modal__input" id="rename-input" placeholder="Nuevo nombre…" />
+      <div class="modal__actions">
+        <button class="btn btn--ghost" id="rename-cancel">Cancelar</button>
+        <button class="btn btn--primary" id="rename-confirm">Renombrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: RENAME MULTIPLE -->
+  <div class="modal-overlay" id="modal-rename-multi" hidden role="dialog" aria-modal="true">
+    <div class="modal modal--wide">
+      <h3 class="modal__title">Renombrar — <span id="rename-multi-count">0</span> elementos</h3>
+
+      <div class="rename-formula">
+        <div class="rename-formula__field">
+          <label class="modal__label">Nuevo nombre</label>
+          <input type="text" class="modal__input" id="rename-pattern" placeholder="ej: 2B_{n}" autocomplete="off" />
+        </div>
+        <div class="rename-tokens">
+          <button class="token-btn" data-token="{n}" title="Número automático: 001, 002…">{n}</button>
+          <button class="token-btn" data-token="{name}" title="Nombre original del archivo">{name}</button>
+        </div>
+        <p class="modal__hint">
+          <code>{n}</code> = número (001, 002…) &nbsp;·&nbsp; <code>{name}</code> = nombre original<br>
+          Ejemplos: <code>2B_{n}</code> → 2B_001 &nbsp;·&nbsp; <code>{name}_final</code> → archivo_final &nbsp;·&nbsp; <code>tifa_{n}_{name}</code> → tifa_001_archivo
+        </p>
+      </div>
+
+      <div class="rename-preview" id="rename-preview">
+        <span style="color:var(--text-3)">Escribe arriba para ver el resultado</span>
+      </div>
+
+      <div class="modal__actions">
+        <button class="btn btn--ghost" id="rename-multi-cancel">Cancelar</button>
+        <button class="btn btn--primary" id="rename-multi-confirm">Aplicar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TAG -->
+  <div class="modal-overlay" id="modal-tag" hidden role="dialog" aria-modal="true" aria-labelledby="modal-tag-title">
+    <div class="modal">
+      <h3 class="modal__title" id="modal-tag-title">Gestionar etiquetas</h3>
+      <div class="tag-picker" id="tag-picker"></div>
+      <div class="tag-new-row">
+        <input type="text" class="modal__input" id="new-tag-input" placeholder="Nueva etiqueta…" maxlength="24" />
+        <input type="color" id="new-tag-color" value="#6c63ff" title="Color de etiqueta" />
+        <button class="btn btn--primary" id="new-tag-confirm">Añadir</button>
+      </div>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" id="tag-cancel">Cancelar</button>
+        <button class="btn btn--primary" id="tag-confirm">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SORT -->
+  <div class="modal-overlay" id="modal-sort" hidden role="dialog" aria-modal="true" aria-labelledby="modal-sort-title">
+    <div class="modal">
+      <h3 class="modal__title" id="modal-sort-title">Ordenar videos</h3>
+      <div class="sort-options">
+        <label class="sort-opt"><input type="radio" name="sort-by" value="name-asc" checked /> Nombre A → Z</label>
+        <label class="sort-opt"><input type="radio" name="sort-by" value="name-desc" /> Nombre Z → A</label>
+        <label class="sort-opt"><input type="radio" name="sort-by" value="duration-asc" /> Duración ↑</label>
+        <label class="sort-opt"><input type="radio" name="sort-by" value="duration-desc" /> Duración ↓</label>
+        <label class="sort-opt"><input type="radio" name="sort-by" value="size-asc" /> Tamaño ↑</label>
+        <label class="sort-opt"><input type="radio" name="sort-by" value="size-desc" /> Tamaño ↓</label>
+      </div>
+      <p class="modal__hint">Se reorganizarán en el canvas en columnas masonry.</p>
+      <div class="modal__actions">
+        <button class="btn btn--ghost" id="sort-cancel">Cancelar</button>
+        <button class="btn btn--primary" id="sort-confirm">Ordenar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIDEO PLAYER OVERLAY -->
+  <div class="player-overlay" id="player-overlay" hidden role="dialog" aria-modal="true" aria-label="Reproductor de video">
+    <div class="player-container">
+      <button class="player-close" id="player-close" aria-label="Cerrar reproductor">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <video class="player-video" id="player-video" controls></video>
+      <div class="player-title" id="player-title"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
