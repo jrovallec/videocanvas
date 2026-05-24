@@ -3,6 +3,8 @@
 > A local, privacy-first visual organizer for videos and images — no servers, no uploads, no tracking.  
 > Organizador visual de videos e imágenes — sin servidores, sin subidas, sin rastreo.
 
+<img width="1917" height="951" alt="preview" src="https://github.com/user-attachments/assets/a15fedb6-ea2b-47e6-a707-98b78d7f4f8d" />
+
 <br>
 
 ## ✨ About / Sobre el proyecto
