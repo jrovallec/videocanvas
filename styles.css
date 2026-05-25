@@ -181,9 +181,11 @@ body {
 
 /* ── EMPTY STATE ───────────────────────── */
 .empty-state {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -60%);
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
   display: flex; flex-direction: column; align-items: center; gap: var(--sp-4);
   text-align: center; pointer-events: none;
+  z-index: 10;
 }
 .empty-state svg { width: 80px; height: 80px; color: var(--text-3); }
 .empty-state h2 { font-size: clamp(22px,2vw,28px); font-weight: 800; color: var(--text-2); letter-spacing: -0.03em; }

@@ -111,18 +111,17 @@
 
   <!-- CANVAS VIEWPORT -->
   <main class="viewport" id="viewport" role="main" aria-label="Canvas de videos">
-    <div class="canvas" id="canvas">
-      <div class="empty-state" id="empty-state" aria-live="polite">
-        <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-          <rect x="6" y="14" width="68" height="44" rx="6" stroke="currentColor" stroke-width="2"/>
-          <path d="M32 28l20 8-20 8V28z" fill="currentColor" opacity=".3"/>
-          <path d="M26 70h28M40 58v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <h2>Canvas vacío</h2>
-        <p>Carga una carpeta de videos para empezar a organizar</p>
-        <button class="btn btn--primary btn--lg" id="btn-load-folder-2">Seleccionar carpeta</button>
-      </div>
+    <div class="empty-state" id="empty-state" aria-live="polite">
+      <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
+        <rect x="6" y="14" width="68" height="44" rx="6" stroke="currentColor" stroke-width="2"/>
+        <path d="M32 28l20 8-20 8V28z" fill="currentColor" opacity=".3"/>
+        <path d="M26 70h28M40 58v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <h2>Canvas vacío</h2>
+      <p>Carga una carpeta de videos o imágenes para empezar</p>
+      <button class="btn btn--primary btn--lg" id="btn-load-folder-2">Seleccionar carpeta</button>
     </div>
+    <div class="canvas" id="canvas"></div>
   </main>
 
   <!-- CONTEXT MENU -->
